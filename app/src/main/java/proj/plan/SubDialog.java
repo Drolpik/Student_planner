@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -40,6 +41,7 @@ public class SubDialog extends AppCompatDialogFragment {
                         String Time = subTime.getText().toString();
                         String Room = subRoom.getText().toString();
                         listener.applyTexts(Name, Teacher, Time, Room);
+                        Toast.makeText(getContext(), "Dodano do planu", Toast.LENGTH_SHORT).show();
                     }
                 });
 

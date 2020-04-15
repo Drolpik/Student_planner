@@ -6,4 +6,6 @@
     <string name="Thursday">Czwartek</string>
     <string name="Friday">Piątek</string>
     <string name="todo">TODO</string>
+    <string name="delete">Usuń</string>
+    <string name="Edit">Edytuj</string>
 </resources>

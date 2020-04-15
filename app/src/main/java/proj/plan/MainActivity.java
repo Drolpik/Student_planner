@@ -3,14 +3,20 @@ package proj.plan;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SubDialog.SubDialogListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements SubDialog.SubDialogListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
 
     private TextView tvMonday;
     private ListView lvMonday;
@@ -37,12 +43,18 @@ public class MainActivity extends AppCompatActivity implements SubDialog.SubDial
     private ArrayList<String> itemsFriday;
     private ArrayAdapter<String> itemsAdapterFriday;
 
-    //selects the correct adapter to add a new topic
+    //selects the correct adapter to add/delete/edit
     private ArrayAdapter<String> choiceAdapter;
 
     private DayVisi day = new DayVisi();
 
     private ImageView ivAdd, ivAdd2, ivAdd3, ivAdd4, ivAdd5;
+
+    private ActionMode mActionMode;
+    private int position_item;
+
+    //selects the correct list to delete/edit
+    private ArrayList<String> choiceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +145,15 @@ public class MainActivity extends AppCompatActivity implements SubDialog.SubDial
         ivAdd3.setOnClickListener(this);
         ivAdd4.setOnClickListener(this);
         ivAdd5.setOnClickListener(this);
+
+        //======================================================
+        //deleting and editing plan
+        //======================================================
+        lvMonday.setOnItemLongClickListener(this);
+        lvTuesday.setOnItemLongClickListener(this);
+        lvWednesday.setOnItemLongClickListener(this);
+        lvThursday.setOnItemLongClickListener(this);
+        lvFriday.setOnItemLongClickListener(this);
     }
 
     public void openDialog()
@@ -186,5 +207,82 @@ public class MainActivity extends AppCompatActivity implements SubDialog.SubDial
                 day.DayFunc(lvFriday);
                 break;
         }
+    }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.long_touch_menu, menu);
+            mode.setTitle("Wybierz opcję");
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId())
+            {
+                case R.id.option_delete:
+                    choiceList.remove(position_item);
+                    choiceAdapter.notifyDataSetChanged();
+                    Toast.makeText(MainActivity.this, "Usunięto", Toast.LENGTH_SHORT).show();
+                    mode.finish();
+                    return true;
+                case R.id.option_edit:
+                    Toast.makeText(MainActivity.this, "Otwarto edycje", Toast.LENGTH_SHORT).show();
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        //checks if actionmode is currently open
+        if(mActionMode != null)
+        {
+            return false;
+        }
+
+        position_item = position;
+        switch (parent.getId())
+        {
+            case R.id.lvMonday:
+                choiceList = itemsMonday;
+                choiceAdapter = itemsAdapterMonday;
+                System.out.println("choice Adapter: " + choiceAdapter);
+                System.out.println("itemsMonday: " + itemsMonday);
+                break;
+            case R.id.lvTuesday:
+                choiceList = itemsTuesday;
+                choiceAdapter = itemsAdapterTuesday;
+                break;
+            case R.id.lvWednesday:
+                choiceList = itemsWednesday;
+                choiceAdapter = itemsAdapterWednesday;
+                break;
+            case R.id.lvThursday:
+                choiceList = itemsThursday;
+                choiceAdapter = itemsAdapterThursday;
+                break;
+            case R.id.lvFriday:
+                choiceList = itemsFriday;
+                choiceAdapter = itemsAdapterFriday;
+                break;
+        }
+
+        mActionMode = startActionMode(mActionModeCallback);
+        return true;
     }
 }
