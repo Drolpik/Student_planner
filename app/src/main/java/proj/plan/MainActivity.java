@@ -201,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (item.getItemId())
             {
                 case R.id.option_delete:
-                    //planMonday.remove(position_item);
-                    //adapterMonday.notifyDataSetChanged();
                     choiceListAction.remove(position_item);
                     choiceAdapter.notifyDataSetChanged();
                     Toast.makeText(MainActivity.this, "Usunięto", Toast.LENGTH_SHORT).show();
@@ -238,18 +236,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rvMonday:
                 choiceListAction = planMonday;
                 choiceAdapter = adapterMonday;
-                Toast.makeText(this, "AAAAAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rvTuesday:
-
+                choiceListAction = planTuesday;
+                choiceAdapter = adapterTuesday;
             case R.id.rvWednesday:
-
+                choiceListAction = planWednesday;
+                choiceAdapter = adapterWednesday;
                 break;
             case R.id.rvThursday:
-
+                choiceListAction = planThursday;
+                choiceAdapter = adapterThursday;
                 break;
             case R.id.rvFriday:
-
+                choiceListAction = planFriday;
+                choiceAdapter = adapterFriday;
                 break;
         }
 
