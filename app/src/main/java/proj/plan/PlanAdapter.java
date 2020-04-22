@@ -42,13 +42,13 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    View src = (View) v.getParent();
+                    View parent = (View) v.getParent();
                     if(listener != null)
                     {
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION)
                         {
-                            listener.onLongItemClick(position, src);
+                            listener.onLongItemClick(position, parent);
                         }
                     }
 

@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //RecyclerView
     private RecyclerView rvMonday, rvTuesday, rvWednesday, rvThursday, rvFriday;
+    private RecyclerView choiceRv;
 
     //Adapter
-    //private RecyclerView.Adapter adapterMonday, adapterTuesday, adapterWednesday, adapterThursday, adapterFriday;
     private PlanAdapter adapterMonday, adapterTuesday, adapterWednesday, adapterThursday, adapterFriday;
     private PlanAdapter choiceAdapter;
 
@@ -38,7 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //ActionMode
     private ActionMode mActionMode;
+
+    //to set item position in onLongClick
     private int position_item;
+
+    //to run VisibleRV method
+    private MainFunction rvVisi = new MainFunction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,53 +141,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void applyTexts(String Name, String Teacher, String Time, String Type, String Room) {
         choiceList.add(new PlanItem(Time, Name, Type, Teacher, Room));
+        rvVisi.VisibleRV(choiceRv);
     }
 
     //OnClick methods
     @Override
     public void onClick(View v) {
         MainFunction day = new MainFunction();
-
+        MainFunction gone = new MainFunction();
         switch (v.getId())
         {
             case R.id.tvMonday:
                 day.DayVisi(rvMonday);
+                gone.GoneRV(rvTuesday, rvWednesday, rvThursday, rvFriday);
                 break;
             case R.id.tvTuesday:
                 day.DayVisi(rvTuesday);
+                gone.GoneRV(rvMonday ,rvWednesday, rvThursday, rvFriday);
                 break;
             case R.id.tvWednesday:
                 day.DayVisi(rvWednesday);
+                gone.GoneRV(rvMonday, rvTuesday, rvThursday, rvFriday);
                 break;
             case R.id.tvThursday:
                 day.DayVisi(rvThursday);
+                gone.GoneRV(rvMonday, rvTuesday, rvWednesday, rvFriday);
                 break;
             case R.id.tvFriday:
                 day.DayVisi(rvFriday);
+                gone.GoneRV(rvMonday, rvTuesday, rvWednesday, rvThursday);
                 break;
             case R.id.ivAdd1:
                 openDialog();
                 choiceList = planMonday;
+                choiceRv = rvMonday;
                 break;
             case R.id.ivAdd2:
                 openDialog();
                 choiceList = planTuesday;
+                choiceRv = rvTuesday;
                 break;
             case R.id.ivAdd3:
                 openDialog();
                 choiceList = planWednesday;
+                choiceRv = rvWednesday;
                 break;
             case R.id.ivAdd4:
                 openDialog();
                 choiceList = planThursday;
+                choiceRv = rvThursday;
                 break;
             case R.id.ivAdd5:
                 openDialog();
                 choiceList = planFriday;
+                choiceRv = rvFriday;
                 break;
         }
     }
 
+    //=============================================================================
+    //ACTIONMODE:
+    //=============================================================================
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -198,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
             switch (item.getItemId())
             {
                 case R.id.option_delete:
@@ -220,9 +240,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mActionMode = null;
         }
     };
+    //=============================================================================
 
+    //OnLongItemClick methods
     @Override
-    public boolean onLongItemClick(int position, View view) {
+    public boolean onLongItemClick(int position, View parent) {
         //checks if actionmode is currently open
         if(mActionMode != null)
         {
@@ -231,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         position_item = position;
 
-        switch (view.getId())
+        switch (parent.getId())
         {
             case R.id.rvMonday:
                 choiceListAction = planMonday;

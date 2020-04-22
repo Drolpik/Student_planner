@@ -18,6 +18,19 @@ public class MainFunction {
         }
     }
 
+    protected void VisibleRV(RecyclerView rv)
+    {
+        rv.setVisibility(View.VISIBLE);
+    }
+
+    protected void GoneRV(RecyclerView rv1, RecyclerView rv2, RecyclerView rv3, RecyclerView rv4)
+    {
+        rv1.setVisibility(View.GONE);
+        rv2.setVisibility(View.GONE);
+        rv3.setVisibility(View.GONE);
+        rv4.setVisibility(View.GONE);
+    }
+
     protected void SetList(RecyclerView rv, RecyclerView.LayoutManager lm, Context context, RecyclerView.Adapter adapter)
     {
         rv.setHasFixedSize(true);
