@@ -1,210 +1,184 @@
 package proj.plan;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SubDialog.SubDialogListener, View.OnClickListener, AdapterView.OnItemLongClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SubDialog.SubDialogListener, PlanAdapter.OnLongItemClickListener {
 
-    private TextView tvMonday;
-    private ListView lvMonday;
-    private ArrayList<String> itemsMonday;
-    private ArrayAdapter<String> itemsAdapterMonday;
+    //TextView
+    private TextView tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday;
 
-    private TextView tvTuesday;
-    private ListView lvTuesday;
-    private ArrayList<String> itemsTuesday;
-    private ArrayAdapter<String> itemsAdapterTuesday;
-
-    private TextView tvWednesday;
-    private ListView lvWednesday;
-    private ArrayList<String> itemsWednesday;
-    private ArrayAdapter<String> itemsAdapterWednesday;
-
-    private TextView tvThursday;
-    private ListView lvThursday;
-    private ArrayList<String> itemsThursday;
-    private ArrayAdapter<String> itemsAdapterThursday;
-
-    private TextView tvFriday;
-    private ListView lvFriday;
-    private ArrayList<String> itemsFriday;
-    private ArrayAdapter<String> itemsAdapterFriday;
-
-    //selects the correct adapter to add/delete/edit
-    private ArrayAdapter<String> choiceAdapter;
-
-    private DayVisi day = new DayVisi();
-
+    //ImageView
     private ImageView ivAdd, ivAdd2, ivAdd3, ivAdd4, ivAdd5;
 
+    //RecyclerView
+    private RecyclerView rvMonday, rvTuesday, rvWednesday, rvThursday, rvFriday;
+
+    //Adapter
+    //private RecyclerView.Adapter adapterMonday, adapterTuesday, adapterWednesday, adapterThursday, adapterFriday;
+    private PlanAdapter adapterMonday, adapterTuesday, adapterWednesday, adapterThursday, adapterFriday;
+    private PlanAdapter choiceAdapter;
+
+    //LayoutManager
+    private RecyclerView.LayoutManager lmMonday, lmTuesday, lmWednesday, lmThursday, lmFriday;;
+
+    //ArrayList
+    private ArrayList<PlanItem> planMonday, planTuesday, planWednesday, planThursday, planFriday;
+    private ArrayList<PlanItem> choiceList = new ArrayList<>();
+    private ArrayList<PlanItem> choiceListAction = new ArrayList<>();
+
+    //ActionMode
     private ActionMode mActionMode;
     private int position_item;
-
-    //selects the correct list to delete/edit
-    private ArrayList<String> choiceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //======================================================
-        //opens the plan of the day of the week
-        //======================================================
+        //RecyclerView findViewById
+        rvMonday = findViewById(R.id.rvMonday);
+        rvTuesday = findViewById(R.id.rvTuesday);
+        rvWednesday = findViewById(R.id.rvWednesday);
+        rvThursday = findViewById(R.id.rvThursday);
+        rvFriday = findViewById(R.id.rvFriday);
+
+        //TextView findViewById
         tvMonday = findViewById(R.id.tvMonday);
-        lvMonday = findViewById(R.id.lvMonday);
-        lvMonday.setVisibility(View.GONE);
-
-        tvMonday.setOnClickListener(this);
-
         tvTuesday = findViewById(R.id.tvTuesday);
-        lvTuesday = findViewById(R.id.lvTuesday);
-        lvTuesday.setVisibility(View.GONE);
-
-        tvTuesday.setOnClickListener(this);
-
         tvWednesday = findViewById(R.id.tvWednesday);
-        lvWednesday = findViewById(R.id.lvWednesday);
-        lvWednesday.setVisibility(View.GONE);
-
-        tvWednesday.setOnClickListener(this);
-
         tvThursday = findViewById(R.id.tvThursday);
-        lvThursday = findViewById(R.id.lvThursday);
-        lvThursday.setVisibility(View.GONE);
-
-        tvThursday.setOnClickListener(this);
-
         tvFriday = findViewById(R.id.tvFriday);
-        lvFriday = findViewById(R.id.lvFriday);
-        lvFriday.setVisibility(View.GONE);
 
-        tvFriday.setOnClickListener(this);
-
-        //======================================================
-        //Adapter settings
-        //======================================================
-        itemsMonday = new ArrayList<String>();
-        itemsAdapterMonday = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemsMonday);
-        lvMonday.setAdapter(itemsAdapterMonday);
-        itemsMonday.add("temp1");
-        itemsMonday.add("temp2");
-        itemsMonday.add("temp3");
-        itemsMonday.add("temp4");
-        itemsMonday.add("temp5");
-
-        itemsTuesday = new ArrayList<String>();
-        itemsAdapterTuesday = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemsTuesday);
-        lvTuesday.setAdapter(itemsAdapterTuesday);
-        itemsTuesday.add("temp1");
-        itemsTuesday.add("temp2");
-        itemsTuesday.add("temp3");
-
-        itemsWednesday = new ArrayList<String>();
-        itemsAdapterWednesday = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemsWednesday);
-        lvWednesday.setAdapter(itemsAdapterWednesday);
-        itemsWednesday.add("temp1");
-        itemsWednesday.add("temp2");
-
-        itemsThursday = new ArrayList<String>();
-        itemsAdapterThursday = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemsThursday);
-        lvThursday.setAdapter(itemsAdapterThursday);
-        itemsThursday.add("temp1");
-        itemsThursday.add("temp2");
-
-        itemsFriday = new ArrayList<String>();
-        itemsAdapterFriday = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemsFriday);
-        lvFriday.setAdapter(itemsAdapterFriday);
-        itemsFriday.add("temp1");
-        itemsFriday.add("temp2");
-
-        //======================================================
-        //Adding a new activity to the plan
-        //======================================================
+        //ImageView findViewById
         ivAdd = findViewById(R.id.ivAdd1);
         ivAdd2 = findViewById(R.id.ivAdd2);
         ivAdd3 = findViewById(R.id.ivAdd3);
         ivAdd4 = findViewById(R.id.ivAdd4);
         ivAdd5 = findViewById(R.id.ivAdd5);
 
+        //sets the RecyclerView start visibility to GONE
+        rvMonday.setVisibility(View.GONE);
+        rvTuesday.setVisibility(View.GONE);
+        rvWednesday.setVisibility(View.GONE);
+        rvThursday.setVisibility(View.GONE);
+        rvFriday.setVisibility(View.GONE);
+
+        //opens the given day of the week from the plan
+        tvMonday.setOnClickListener(this);
+        tvTuesday.setOnClickListener(this);
+        tvWednesday.setOnClickListener(this);
+        tvThursday.setOnClickListener(this);
+        tvFriday.setOnClickListener(this);
+
+        //Adding a new activity to the plan
         ivAdd.setOnClickListener(this);
         ivAdd2.setOnClickListener(this);
         ivAdd3.setOnClickListener(this);
         ivAdd4.setOnClickListener(this);
         ivAdd5.setOnClickListener(this);
 
-        //======================================================
+        //Monday ArrayList
+        MainFunction alMonday = new MainFunction();
+        planMonday = new ArrayList<>();
+        adapterMonday = new PlanAdapter(planMonday);
+        alMonday.SetList(rvMonday, lmMonday, this, adapterMonday);
+
+        //Tuesday Arraylist
+        MainFunction alTuesday = new MainFunction();
+        planTuesday = new ArrayList<>();
+        adapterTuesday = new PlanAdapter(planTuesday);
+        alTuesday.SetList(rvTuesday, lmTuesday,this, adapterTuesday);
+
+        //Wednesday Arraylist
+        MainFunction alWednesday = new MainFunction();
+        planWednesday = new ArrayList<>();
+        adapterWednesday = new PlanAdapter(planWednesday);
+        alWednesday.SetList(rvWednesday, lmWednesday,this, adapterWednesday);
+
+        //Wednesday Arraylist
+        MainFunction alThursday = new MainFunction();
+        planThursday = new ArrayList<>();
+        adapterThursday = new PlanAdapter(planThursday);
+        alThursday.SetList(rvThursday, lmThursday,this, adapterThursday);
+
+        //Friday Arraylist
+        MainFunction alFriday = new MainFunction();
+        planFriday = new ArrayList<>();
+        adapterFriday = new PlanAdapter(planFriday);
+        alFriday.SetList(rvFriday, lmFriday,this, adapterFriday);
+
         //deleting and editing plan
-        //======================================================
-        lvMonday.setOnItemLongClickListener(this);
-        lvTuesday.setOnItemLongClickListener(this);
-        lvWednesday.setOnItemLongClickListener(this);
-        lvThursday.setOnItemLongClickListener(this);
-        lvFriday.setOnItemLongClickListener(this);
+        adapterMonday.setOnLongItemClickListener(this);
+        adapterTuesday.setOnLongItemClickListener(this);
+        adapterWednesday.setOnLongItemClickListener(this);
+        adapterThursday.setOnLongItemClickListener(this);
+        adapterFriday.setOnLongItemClickListener(this);
     }
 
+    //The dialog opens after pressing the add button
     public void openDialog()
     {
         SubDialog subDialog = new SubDialog();
         subDialog.show(getSupportFragmentManager(), "subject dialog");
     }
 
+    //receives from SubDialog completed data by the user and adds to the plan
     @Override
-    public void applyTexts(String Name, String Teacher, String Time, String Room) {
-        choiceAdapter.add(Time + "    " + Name + "  " + Teacher + "  " + Room);
+    public void applyTexts(String Name, String Teacher, String Time, String Type, String Room) {
+        choiceList.add(new PlanItem(Time, Name, Type, Teacher, Room));
     }
 
+    //OnClick methods
     @Override
     public void onClick(View v) {
+        MainFunction day = new MainFunction();
+
         switch (v.getId())
         {
+            case R.id.tvMonday:
+                day.DayVisi(rvMonday);
+                break;
+            case R.id.tvTuesday:
+                day.DayVisi(rvTuesday);
+                break;
+            case R.id.tvWednesday:
+                day.DayVisi(rvWednesday);
+                break;
+            case R.id.tvThursday:
+                day.DayVisi(rvThursday);
+                break;
+            case R.id.tvFriday:
+                day.DayVisi(rvFriday);
+                break;
             case R.id.ivAdd1:
                 openDialog();
-                choiceAdapter = itemsAdapterMonday;
+                choiceList = planMonday;
                 break;
             case R.id.ivAdd2:
                 openDialog();
-                choiceAdapter = itemsAdapterTuesday;
+                choiceList = planTuesday;
                 break;
             case R.id.ivAdd3:
                 openDialog();
-                choiceAdapter = itemsAdapterWednesday;
+                choiceList = planWednesday;
                 break;
             case R.id.ivAdd4:
                 openDialog();
-                choiceAdapter = itemsAdapterThursday;
+                choiceList = planThursday;
                 break;
             case R.id.ivAdd5:
                 openDialog();
-                choiceAdapter = itemsAdapterFriday;
-                break;
-            case R.id.tvMonday:
-                day.DayFunc(lvMonday);
-                break;
-            case R.id.tvTuesday:
-                day.DayFunc(lvTuesday);
-                break;
-            case R.id.tvWednesday:
-                day.DayFunc(lvWednesday);
-                break;
-            case R.id.tvThursday:
-                day.DayFunc(lvThursday);
-                break;
-            case R.id.tvFriday:
-                day.DayFunc(lvFriday);
+                choiceList = planFriday;
                 break;
         }
     }
@@ -227,7 +201,9 @@ public class MainActivity extends AppCompatActivity implements SubDialog.SubDial
             switch (item.getItemId())
             {
                 case R.id.option_delete:
-                    choiceList.remove(position_item);
+                    //planMonday.remove(position_item);
+                    //adapterMonday.notifyDataSetChanged();
+                    choiceListAction.remove(position_item);
                     choiceAdapter.notifyDataSetChanged();
                     Toast.makeText(MainActivity.this, "Usunięto", Toast.LENGTH_SHORT).show();
                     mode.finish();
@@ -248,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements SubDialog.SubDial
     };
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onLongItemClick(int position, View view) {
         //checks if actionmode is currently open
         if(mActionMode != null)
         {
@@ -256,29 +232,24 @@ public class MainActivity extends AppCompatActivity implements SubDialog.SubDial
         }
 
         position_item = position;
-        switch (parent.getId())
+
+        switch (view.getId())
         {
-            case R.id.lvMonday:
-                choiceList = itemsMonday;
-                choiceAdapter = itemsAdapterMonday;
-                System.out.println("choice Adapter: " + choiceAdapter);
-                System.out.println("itemsMonday: " + itemsMonday);
+            case R.id.rvMonday:
+                choiceListAction = planMonday;
+                choiceAdapter = adapterMonday;
+                Toast.makeText(this, "AAAAAAAAAAAAAAA", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.lvTuesday:
-                choiceList = itemsTuesday;
-                choiceAdapter = itemsAdapterTuesday;
+            case R.id.rvTuesday:
+
+            case R.id.rvWednesday:
+
                 break;
-            case R.id.lvWednesday:
-                choiceList = itemsWednesday;
-                choiceAdapter = itemsAdapterWednesday;
+            case R.id.rvThursday:
+
                 break;
-            case R.id.lvThursday:
-                choiceList = itemsThursday;
-                choiceAdapter = itemsAdapterThursday;
-                break;
-            case R.id.lvFriday:
-                choiceList = itemsFriday;
-                choiceAdapter = itemsAdapterFriday;
+            case R.id.rvFriday:
+
                 break;
         }
 

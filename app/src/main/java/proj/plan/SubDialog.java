@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class SubDialog extends AppCompatDialogFragment {
 
-    private EditText subName, subTeacher, subTime, subRoom;
+    private EditText subName, subTeacher, subTime, subType, subRoom;
 
     private SubDialogListener listener;
 
@@ -39,15 +39,17 @@ public class SubDialog extends AppCompatDialogFragment {
                         String Name = subName.getText().toString();
                         String Teacher = subTeacher.getText().toString();
                         String Time = subTime.getText().toString();
+                        String Type = subType.getText().toString();
                         String Room = subRoom.getText().toString();
-                        listener.applyTexts(Name, Teacher, Time, Room);
+                        listener.applyTexts(Name, Teacher, Time, Type, Room);
                         Toast.makeText(getContext(), "Dodano do planu", Toast.LENGTH_SHORT).show();
                     }
                 });
 
         subName = view.findViewById(R.id.subName);
         subTeacher = view.findViewById(R.id.subTeacher);
-        subTime = view. findViewById(R.id.subTime);
+        subTime = view.findViewById(R.id.subTime);
+        subType = view.findViewById(R.id.subType);
         subRoom = view.findViewById(R.id.subRoom);
 
         return builder.create();
@@ -66,6 +68,6 @@ public class SubDialog extends AppCompatDialogFragment {
 
     public interface SubDialogListener
     {
-        void applyTexts(String Name, String Teacher, String Time, String Room);
+        void applyTexts(String Name, String Teacher, String Time, String Type, String Room);
     }
 }
