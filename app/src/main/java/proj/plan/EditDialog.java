@@ -9,14 +9,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class SubDialog extends AppCompatDialogFragment {
+public class EditDialog extends AppCompatDialogFragment {
 
     private EditText subName, subTeacher, subTime, subType, subRoom;
 
-    private SubDialogListener listener;
+    private String editName, editTeacher, editTime, editType, editRoom;
+
+    private EditDialogListener listener;
+
+    public EditDialog(ArrayList<PlanItem> choicelist, int position_item) {
+        editName = choicelist.get(position_item).getmTextSubject();
+        editTeacher = choicelist.get(position_item).getmTextTeacher();
+        editTime = choicelist.get(position_item).getmTextTime();
+        editType = choicelist.get(position_item).getmTextType();
+        editRoom = choicelist.get(position_item).getmTextRoom();
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,14 +38,14 @@ public class SubDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.layout_dialog, null);
 
         builder.setView(view)
-                .setTitle(R.string.new_subject)
+                .setTitle(R.string.edit_subject)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String Name = subName.getText().toString();
@@ -41,8 +53,8 @@ public class SubDialog extends AppCompatDialogFragment {
                         String Time = subTime.getText().toString();
                         String Type = subType.getText().toString();
                         String Room = subRoom.getText().toString();
-                        listener.applyTexts(Name, Teacher, Time, Type, Room);
-                        Toast.makeText(getContext(), R.string.add_toast, Toast.LENGTH_SHORT).show();
+                        listener.saveEditTexts(Name, Teacher, Time, Type, Room);
+                        Toast.makeText(getContext(), R.string.all_save_toast, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -52,6 +64,12 @@ public class SubDialog extends AppCompatDialogFragment {
         subType = view.findViewById(R.id.subType);
         subRoom = view.findViewById(R.id.subRoom);
 
+        subName.setText(editName);
+        subTeacher.setText(editTeacher);
+        subTime.setText(editTime);
+        subType.setText(editType);
+        subRoom.setText(editRoom);
+
         return builder.create();
     }
 
@@ -60,14 +78,14 @@ public class SubDialog extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (SubDialogListener) context;
+            listener = (EditDialog.EditDialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement SubDialogListener");
+            throw new ClassCastException(context.toString() + "must implement EditDialogListener");
         }
     }
 
-    public interface SubDialogListener
+    public interface EditDialogListener
     {
-        void applyTexts(String Name, String Teacher, String Time, String Type, String Room);
+        void saveEditTexts(String Name, String Teacher, String Time, String Type, String Room);
     }
 }

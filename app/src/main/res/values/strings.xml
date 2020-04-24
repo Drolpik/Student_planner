@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Student_plan</string>
+    <string name="app_name">Plan zajęć</string>
     <string name="Monday">Poniedziałek</string>
     <string name="Tuesday">Wtorek</string>
     <string name="Wednesday">Środa</string>
@@ -8,4 +8,19 @@
     <string name="todo">TODO</string>
     <string name="delete">Usuń</string>
     <string name="Edit">Edytuj</string>
+    <string name="subject_name">Nazwa przedmiotu</string>
+    <string name="teacher_name">Nauczyciel</string>
+    <string name="start_time">Godzina rozpoczęcia zajęć</string>
+    <string name="class_type">Typ: W - wykład itp.</string>
+    <string name="Room">Sala</string>
+    <string name="delete_toast">Usunięto</string>
+    <string name="edit_toast">Otwarto edycję</string>
+    <string name="add_toast">Dodano do planu</string>
+    <string name="new_subject">Nowe zajęcie</string>
+    <string name="cancel">Anuluj</string>
+    <string name="add">Dodaj</string>
+    <string name="select_option">Wybierz opcję</string>
+    <string name="save">Zapisz</string>
+    <string name="all_save_toast">Dokonano zmian</string>
+    <string name="edit_subject">Edytuj zajęcie</string>
 </resources>

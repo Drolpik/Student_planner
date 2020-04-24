@@ -18,6 +18,16 @@ public class PlanItem {
         mTextRoom = TextRoom;
     }
 
+    public void changeTime(String time) { mTextTime = time; }
+
+    public void changeSubject(String subject) { mTextSubject = subject; }
+
+    public void changeType(String type) { mTextType = type; }
+
+    public void changeTeacher(String teacher) { mTextTeacher = teacher; }
+
+    public void changeRoom(String room) { mTextRoom = room; }
+
     public String getmTextTime() {
         return mTextTime;
     }

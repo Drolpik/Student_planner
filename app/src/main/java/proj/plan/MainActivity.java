@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SubDialog.SubDialogListener, PlanAdapter.OnLongItemClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SubDialog.SubDialogListener, PlanAdapter.OnLongItemClickListener, EditDialog.EditDialogListener {
 
     //TextView
     private TextView tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday;
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //ArrayList
     private ArrayList<PlanItem> planMonday, planTuesday, planWednesday, planThursday, planFriday;
-    private ArrayList<PlanItem> choiceList = new ArrayList<>();
-    private ArrayList<PlanItem> choiceListAction = new ArrayList<>();
+    private ArrayList<PlanItem> choiceList;
+    private ArrayList<PlanItem> choiceListAction;
 
     //ActionMode
     private ActionMode mActionMode;
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //The dialog opens after pressing the add button
-    public void openDialog()
+    public void openSubDialog()
     {
         SubDialog subDialog = new SubDialog();
         subDialog.show(getSupportFragmentManager(), "subject dialog");
@@ -142,6 +142,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void applyTexts(String Name, String Teacher, String Time, String Type, String Room) {
         choiceList.add(new PlanItem(Time, Name, Type, Teacher, Room));
         rvVisi.VisibleRV(choiceRv);
+    }
+
+    //The dialog opens after pressing the edit option
+    public void openEditDialog(ArrayList<PlanItem> choiceList, int position_item)
+    {
+        EditDialog editDialog = new EditDialog(choiceList, position_item);
+        editDialog.show(getSupportFragmentManager(),"edit dialog");
+    }
+
+    //receives from EditDialog completed data by the user and saves changes
+    @Override
+    public void saveEditTexts(String Name, String Teacher, String Time, String Type, String Room) {
+        choiceListAction.get(position_item).changeSubject(Name);
+        choiceListAction.get(position_item).changeTeacher(Teacher);
+        choiceListAction.get(position_item).changeTime(Time);
+        choiceListAction.get(position_item).changeType(Type);
+        choiceListAction.get(position_item).changeRoom(Room);
+        choiceAdapter.notifyDataSetChanged();
     }
 
     //OnClick methods
@@ -172,27 +190,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gone.GoneRV(rvMonday, rvTuesday, rvWednesday, rvThursday);
                 break;
             case R.id.ivAdd1:
-                openDialog();
+                openSubDialog();
                 choiceList = planMonday;
                 choiceRv = rvMonday;
                 break;
             case R.id.ivAdd2:
-                openDialog();
+                openSubDialog();
                 choiceList = planTuesday;
                 choiceRv = rvTuesday;
                 break;
             case R.id.ivAdd3:
-                openDialog();
+                openSubDialog();
                 choiceList = planWednesday;
                 choiceRv = rvWednesday;
                 break;
             case R.id.ivAdd4:
-                openDialog();
+                openSubDialog();
                 choiceList = planThursday;
                 choiceRv = rvThursday;
                 break;
             case R.id.ivAdd5:
-                openDialog();
+                openSubDialog();
                 choiceList = planFriday;
                 choiceRv = rvFriday;
                 break;
@@ -206,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.long_touch_menu, menu);
-            mode.setTitle("Wybierz opcję");
+            mode.setTitle(R.string.select_option);
             return true;
         }
 
@@ -223,11 +241,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.option_delete:
                     choiceListAction.remove(position_item);
                     choiceAdapter.notifyDataSetChanged();
-                    Toast.makeText(MainActivity.this, "Usunięto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.delete_toast, Toast.LENGTH_SHORT).show();
                     mode.finish();
                     return true;
                 case R.id.option_edit:
-                    Toast.makeText(MainActivity.this, "Otwarto edycje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.edit_toast, Toast.LENGTH_SHORT).show();
+                    openEditDialog(choiceList, position_item);
                     mode.finish();
                     return true;
                 default:

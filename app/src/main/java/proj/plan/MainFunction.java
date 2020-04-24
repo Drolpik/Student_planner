@@ -2,7 +2,6 @@ package proj.plan;
 
 import android.content.Context;
 import android.view.View;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
