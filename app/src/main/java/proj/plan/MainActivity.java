@@ -145,9 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //The dialog opens after pressing the edit option
-    public void openEditDialog(ArrayList<PlanItem> choiceList, int position_item)
+    public void openEditDialog(ArrayList<PlanItem> choiceListAction, int position_item)
     {
-        EditDialog editDialog = new EditDialog(choiceList, position_item);
+        EditDialog editDialog = new EditDialog(choiceListAction, position_item);
         editDialog.show(getSupportFragmentManager(),"edit dialog");
     }
 
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return true;
                 case R.id.option_edit:
                     Toast.makeText(MainActivity.this, R.string.edit_toast, Toast.LENGTH_SHORT).show();
-                    openEditDialog(choiceList, position_item);
+                    openEditDialog(choiceListAction, position_item);
                     mode.finish();
                     return true;
                 default:

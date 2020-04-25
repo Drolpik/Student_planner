@@ -22,12 +22,12 @@ public class EditDialog extends AppCompatDialogFragment {
 
     private EditDialogListener listener;
 
-    public EditDialog(ArrayList<PlanItem> choicelist, int position_item) {
-        editName = choicelist.get(position_item).getmTextSubject();
-        editTeacher = choicelist.get(position_item).getmTextTeacher();
-        editTime = choicelist.get(position_item).getmTextTime();
-        editType = choicelist.get(position_item).getmTextType();
-        editRoom = choicelist.get(position_item).getmTextRoom();
+    public EditDialog(ArrayList<PlanItem> choiceListAction, int position_item) {
+        editName = choiceListAction.get(position_item).getmTextSubject();
+        editTeacher = choiceListAction.get(position_item).getmTextTeacher();
+        editTime = choiceListAction.get(position_item).getmTextTime();
+        editType = choiceListAction.get(position_item).getmTextType();
+        editRoom = choiceListAction.get(position_item).getmTextRoom();
     }
 
     @Override
