@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainFunction {
 
+    /**
+     * Ustawianie widoczności widoku
+     * @param day Wybrany widok
+     */
     protected void DayVisi(RecyclerView day)
     {
         if(day.getVisibility() == View.VISIBLE) {
@@ -17,11 +21,13 @@ public class MainFunction {
         }
     }
 
-    protected void VisibleRV(RecyclerView rv)
-    {
-        rv.setVisibility(View.VISIBLE);
-    }
-
+    /**
+     * Ukrywanie list
+     * @param rv1
+     * @param rv2
+     * @param rv3
+     * @param rv4
+     */
     protected void GoneRV(RecyclerView rv1, RecyclerView rv2, RecyclerView rv3, RecyclerView rv4)
     {
         rv1.setVisibility(View.GONE);
@@ -30,6 +36,13 @@ public class MainFunction {
         rv4.setVisibility(View.GONE);
     }
 
+    /**
+     * Ustawiania adapterów, managerów widoku
+     * @param rv
+     * @param lm
+     * @param context
+     * @param adapter
+     */
     protected void SetList(RecyclerView rv, RecyclerView.LayoutManager lm, Context context, RecyclerView.Adapter adapter)
     {
         rv.setHasFixedSize(true);

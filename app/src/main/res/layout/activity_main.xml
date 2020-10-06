@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ProgressBar
+        android:id="@+id/indeterminateBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundTint="#009688"
+        android:progressTint="#009688" />
+
     <LinearLayout
         android:id="@+id/LLmonday"
         android:layout_width="match_parent"
@@ -20,7 +28,8 @@
 
             <TextView
                 android:id="@+id/tvMonday"
-                android:layout_width="330dp"
+                android:layout_width="0dp"
+                android:layout_weight="3.80"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -65,7 +74,8 @@
 
             <TextView
                 android:id="@+id/tvTuesday"
-                android:layout_width="330dp"
+                android:layout_width="0dp"
+                android:layout_weight="3.80"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -109,7 +119,8 @@
 
             <TextView
                 android:id="@+id/tvWednesday"
-                android:layout_width="330dp"
+                android:layout_width="0dp"
+                android:layout_weight="3.80"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -153,7 +164,8 @@
 
             <TextView
                 android:id="@+id/tvThursday"
-                android:layout_width="330dp"
+                android:layout_width="0dp"
+                android:layout_weight="3.80"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -198,7 +210,8 @@
 
             <TextView
                 android:id="@+id/tvFriday"
-                android:layout_width="330dp"
+                android:layout_width="0dp"
+                android:layout_weight="3.80"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"

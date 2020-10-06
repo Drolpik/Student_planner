@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,14 +15,36 @@ import java.util.ArrayList;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class EditDialog extends AppCompatDialogFragment {
 
+    /**
+     * Teksty przekazywane do okienka ecycji
+     */
     private EditText subName, subTeacher, subTime, subType, subRoom;
 
+    /**
+     * Teksty pobrane od użytkownika
+     */
     private String editName, editTeacher, editTime, editType, editRoom;
 
     private EditDialogListener listener;
 
+    /**
+     * Funkcja pobierająca dane od użytkownika
+     * @param choiceListAction Wybrana lista
+     * @param position_item Numer elementu listy
+     */
     public EditDialog(ArrayList<PlanItem> choiceListAction, int position_item) {
         editName = choiceListAction.get(position_item).getmTextSubject();
         editTeacher = choiceListAction.get(position_item).getmTextTeacher();
@@ -88,4 +111,6 @@ public class EditDialog extends AppCompatDialogFragment {
     {
         void saveEditTexts(String Name, String Teacher, String Time, String Type, String Room);
     }
+
+
 }

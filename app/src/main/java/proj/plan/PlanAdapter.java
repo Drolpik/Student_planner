@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder> {
 
+    /**
+     * Lista przedmiotów
+     */
     private ArrayList<PlanItem> mPlanList;
     private OnLongItemClickListener mListener;
 

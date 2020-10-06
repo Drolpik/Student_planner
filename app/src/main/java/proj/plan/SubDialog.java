@@ -14,10 +14,18 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class SubDialog extends AppCompatDialogFragment {
 
+    /**
+     * Teksty przekazywne do okienka dodawania
+     */
     private EditText subName, subTeacher, subTime, subType, subRoom;
 
     private SubDialogListener listener;
 
+    /**
+     * Tworzy okienko dodawania przedmiotu
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -66,6 +74,9 @@ public class SubDialog extends AppCompatDialogFragment {
         }
     }
 
+    /**
+     * Przekazuje dane do MainActivity
+     */
     public interface SubDialogListener
     {
         void applyTexts(String Name, String Teacher, String Time, String Type, String Room);
